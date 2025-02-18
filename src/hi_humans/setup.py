@@ -9,7 +9,7 @@ from pathlib import Path
 
 # Google Analytics 4 Configuration
 GA_MEASUREMENT_ID = "G-JSXPLJ0P6M"  # Your GA4 Measurement ID
-GA_API_SECRET = "YOUR_API_SECRET"  # Replace with your GA API Secret
+GA_API_SECRET = "40wcO2OLQty3WMtj3BLxKw"  # Replace with your GA API Secret
 GA_TRACKING_URL = f"https://www.google-analytics.com/mp/collect?measurement_id={GA_MEASUREMENT_ID}&api_secret={GA_API_SECRET}"
 
 # Configure logging for clearer output
