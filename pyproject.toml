@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hi_humans"
-version = "0.0.3"
+version = "0.0.4"
 authors = [
   { name = "Mariya Sha", email = "mariya@pythonsimplified.org" },
 ]
@@ -18,8 +18,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/MariyaSha/humans"
-Issues = "https://github.com/MariyaSha/humans"
+Homepage = "https://github.com/prudhviraj44/pip-ecosystem"
+Issues = "https://github.com/prudhviraj44/pip-ecosystem"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/hi_humans"]
