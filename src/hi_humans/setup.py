@@ -3,7 +3,14 @@ import uuid
 import re
 import shutil
 import logging
+import platform
+import requests
 from pathlib import Path
+
+# Google Analytics 4 Configuration
+GA_MEASUREMENT_ID = "G-JSXPLJ0P6M"  # Your GA4 Measurement ID
+GA_API_SECRET = "YOUR_API_SECRET"  # Replace with your GA API Secret
+GA_TRACKING_URL = f"https://www.google-analytics.com/mp/collect?measurement_id={GA_MEASUREMENT_ID}&api_secret={GA_API_SECRET}"
 
 # Configure logging for clearer output
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -33,6 +40,32 @@ def update_shell_config(serial_number: str, config_path: Path) -> None:
     
     config_path.write_text(new_content)
 
+def track_installation(serial_number: str) -> None:
+    """
+    Send installation data to Google Analytics 4.
+    """
+    data = {
+        "client_id": serial_number,
+        "events": [{
+            "name": "python_package_install",
+            "params": {
+                "serial_number": serial_number,
+                "os": platform.system(),
+                "version": platform.release(),
+                "hostname": platform.node()
+            }
+        }]
+    }
+
+    try:
+        response = requests.post(GA_TRACKING_URL, json=data)
+        if response.status_code == 200:
+            logging.info("Installation tracked via Google Analytics.")
+        else:
+            logging.warning(f"Failed to track installation. Status code: {response.status_code}")
+    except Exception as e:
+        logging.warning(f"Tracking failed: {e}")
+
 def main():
     # Generate a new UUID as a serial number
     serial_number = str(uuid.uuid4())
@@ -56,10 +89,12 @@ def main():
     # Update each configuration file with the serial number
     for config in existing_configs:
         update_shell_config(serial_number, config)
+
+    # Track the installation with Google Analytics
+    track_installation(serial_number)
     
     logging.info(f"\nSerial Number set as an environment variable: {serial_number}")
     logging.info("To apply changes, please run 'source <config_file>' (e.g., 'source ~/.bashrc') or open a new terminal.")
 
-if __name__ == "__main__":
+if __name__ == "_main_":
     main()
-
